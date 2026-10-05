@@ -60,7 +60,7 @@ This project focuses on **classifying brain signals (EEG)** recorded during moto
 ## 📂 Project Structure
 
 ```
-UMBC-DATA606-Capstone/
+Brain2Action/
 ├── app/                          # Main application code
 │   ├── backend/                  # Django REST API
 │   │   ├── api/                  # API endpoints
