@@ -1,6 +1,6 @@
 import { Card, CardContent, Box, Typography, Chip } from '@mui/material'
 import { CheckCircle, Cancel, TrendingUp } from '@mui/icons-material'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 interface PredictionIndicatorProps {
   prediction: number | null

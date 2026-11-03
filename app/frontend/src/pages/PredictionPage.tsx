@@ -85,7 +85,7 @@ export default function PredictionPage() {
           setCurrentPrediction(message.prediction)
           setCurrentConfidence(message.confidence || null)
           setCurrentGroundTruth(message.ground_truth !== undefined ? message.ground_truth : null)
-          setCurrentCorrect(message.correct !== undefined ? message.correct : null)
+          setCurrentCorrect(typeof message.correct === 'boolean' ? message.correct : null)
           if (message.progress) {
             setProgress(message.progress)
           }
@@ -93,7 +93,7 @@ export default function PredictionPage() {
         break
       case 'prediction_complete':
         setPredicting(false)
-        if (message.accuracy !== undefined && message.correct !== undefined && message.total !== undefined) {
+        if (message.accuracy !== undefined && typeof message.correct === 'number' && message.total !== undefined) {
           setFinalResults({
             accuracy: message.accuracy,
             correct: message.correct,
