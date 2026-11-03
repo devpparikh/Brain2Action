@@ -10,6 +10,10 @@ import mne
 from pathlib import Path
 from django.conf import settings
 
+# Samples per epoch: [2.5, 7.0] s at 250 Hz with both endpoints included, as
+# mne.Epochs produces and as the models were trained (training.ipynb: (n, 3, 1126)).
+EPOCH_SAMPLES = 1126
+
 # Add parent directories to path to import EEGNet and EEGDataLoader
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
 
@@ -534,8 +538,8 @@ def load_evaluation_data(subject_id, run_id, metadata_only=False, use_db=True):
     eeg_data = epochs.get_data(copy=False)  # (n_trials, n_channels, n_times)
     labels = epochs.events[:, -1] - 1  # Convert to 0-indexed (1->0, 2->1)
     
-    # Verify data shape matches expected (1125 time points from [2.5, 7.0] window)
-    expected_timepoints = 1125  # 4.5 seconds at 250 Hz
+    # Verify data shape matches training (EPOCH_SAMPLES time points from [2.5, 7.0])
+    expected_timepoints = EPOCH_SAMPLES
     if eeg_data.shape[2] != expected_timepoints:
         raise ValueError(
             f"Unexpected time points: {eeg_data.shape[2]} (expected {expected_timepoints}). "
@@ -554,7 +558,7 @@ def load_evaluation_data(subject_id, run_id, metadata_only=False, use_db=True):
     return eeg_data, labels
 
 
-def create_sliding_windows(data, window_size=1125, step=1125):
+def create_sliding_windows(data, window_size=EPOCH_SAMPLES, step=EPOCH_SAMPLES):
     """
     Create sliding windows from trial data.
     

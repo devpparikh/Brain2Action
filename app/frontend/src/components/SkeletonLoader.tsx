@@ -69,7 +69,7 @@ export default function SkeletonLoader({
       {Array.from({ length: count }).map((_, index) => (
         <Skeleton
           key={index}
-          variant={variant}
+          variant={variant === 'card' ? 'rounded' : variant}
           width={width}
           height={height}
           className="mb-2"

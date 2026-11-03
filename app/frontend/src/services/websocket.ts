@@ -8,7 +8,8 @@ export interface PredictionMessage {
   prediction?: number
   confidence?: number
   ground_truth?: number
-  correct?: boolean
+  // boolean on 'prediction' messages; the count of correct predictions on 'prediction_complete'
+  correct?: boolean | number
   trial_idx?: number
   window_idx?: number
   progress?: {
@@ -16,7 +17,6 @@ export interface PredictionMessage {
     total: number
   }
   accuracy?: number
-  correct?: number
   total?: number
   n_trials?: number
   n_windows?: number
@@ -65,7 +65,7 @@ export class PredictionWebSocket {
           }
         }
 
-        this.ws.onerror = (error) => {
+        this.ws.onerror = () => {
           this.onError(new Error('WebSocket error'))
         }
 

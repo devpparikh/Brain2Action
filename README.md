@@ -1,5 +1,7 @@
 # Brain2Action: Turning Brain Signals into Actions
 
+[![CI](https://github.com/devpparikh/Brain2Action/actions/workflows/ci.yml/badge.svg)](https://github.com/devpparikh/Brain2Action/actions/workflows/ci.yml)
+
 **BCI Motor Imagery Classification using Deep Learning**
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
@@ -7,6 +9,12 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A comprehensive Brain-Computer Interface (BCI) system for classifying motor imagery from EEG signals using deep learning. This project implements EEGNet architecture to distinguish between left-hand and right-hand motor imagery, with a complete pipeline from data preprocessing to web-based real-time predictions.
+
+| Live predictions over WebSocket | Run summary |
+| --- | --- |
+| ![Real-time prediction: left/right motor imagery with confidence and ground truth](assets/screenshots/predicting.jpg) | ![Results after replaying a recorded session](assets/screenshots/results.jpg) |
+
+*Screenshots: the per-subject model replaying recorded trials from session 01T of subject B04 (BCI Competition IV-2b), streamed trial by trial over a WebSocket.*
 
 ---
 
@@ -140,8 +148,8 @@ Brain2Action/
 
 ```bash
 # Clone the repository
-git clone https://github.com/wcj365/UMBC-Data-Science-Capstone.git
-cd UMBC-DATA606-Capstone
+git clone https://github.com/devpparikh/Brain2Action.git
+cd Brain2Action
 
 # Create virtual environment
 python -m venv venv
@@ -162,7 +170,7 @@ npm install
 
 ```bash
 cd app/backend
-pip install -r requirements.txt
+pip install -r requirements.txt   # includes PyTorch, Django Channels and daphne
 python manage.py migrate
 ```
 
@@ -196,12 +204,15 @@ jupyter notebook notebooks/training.ipynb
 
 ### Running the Web Application
 
-#### Backend (Django)
+#### Backend (Django + Channels, ASGI)
 
 ```bash
 cd app/backend
-python manage.py runserver
+./run_server.sh        # daphne on :8000; serves REST and the prediction WebSocket
 ```
+
+`python manage.py runserver` serves HTTP only here, so the prediction
+WebSocket needs daphne.
 
 #### Frontend (React)
 
@@ -293,9 +304,9 @@ The application will be available at `http://localhost:5173`
 
 **Dev Parikh**
 
-- GitHub: [@wcj365](https://github.com/wcj365)
+- GitHub: [@devpparikh](https://github.com/devpparikh)
 - LinkedIn: [devparikh0506](https://www.linkedin.com/in/devparikh0506/)
-- Project: [UMBC Data Science Capstone](https://github.com/wcj365/UMBC-Data-Science-Capstone)
+- Capstone program: [UMBC Data Science Capstone](https://github.com/wcj365/UMBC-Data-Science-Capstone)
 
 **Institution**: UMBC (University of Maryland, Baltimore County)  
 **Program**: Data Science Master's Degree  
