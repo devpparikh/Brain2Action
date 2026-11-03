@@ -1,1 +1,7 @@
-*.zip
+*.zip__pycache__/
+*.pyc
+node_modules/
+dist/
+*.sqlite3
+.venv/
+venv/
