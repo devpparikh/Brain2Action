@@ -4,7 +4,13 @@ WebSocket consumer for streaming BCI predictions.
 import json
 import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .utils import load_model, load_evaluation_data, create_sliding_windows, predict_window
+from .utils import (
+    EPOCH_SAMPLES,
+    create_sliding_windows,
+    load_evaluation_data,
+    load_model,
+    predict_window,
+)
 import torch
 
 
@@ -78,9 +84,10 @@ class PredictionConsumer(AsyncWebsocketConsumer):
         self.labels = labels
         self.n_trials = len(eeg_data)
         
-        # Create sliding windows (non-overlapping windows matching model input: 1125 time points)
-        # Model expects 1125 time points (4.5 seconds at 250 Hz) from training
-        windows, window_times = create_sliding_windows(eeg_data, window_size=1125, step=1125)
+        # One window per trial, the same length the models were trained on
+        windows, window_times = create_sliding_windows(
+            eeg_data, window_size=EPOCH_SAMPLES, step=EPOCH_SAMPLES
+        )
         self.windows = windows
         self.window_times = window_times
     
